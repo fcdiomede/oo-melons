@@ -11,6 +11,9 @@ class AbstractMelonOrder():
 
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
+        if qty > 100:
+            raise TooManyMelonsError("No more than 100 melons!")
+
         self.species = species
         self.qty = qty
 
@@ -87,3 +90,6 @@ class GovernmentMelonOrder(AbstractMelonOrder):
 
     def mark_inspection(passed):
         self.passed_inspection = passed
+
+class TooManyMelonsError(ValueError):
+    """Raise an error when too many melons are ordered"""
