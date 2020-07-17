@@ -24,9 +24,9 @@ class AbstractMelonOrder():
         base_price = randint(5,9)
 
         if (
-            (current_weekday >= 0 and current_weekday <= 5) 
+            (current_weekday <= 5) #It is currently Mon-Fri
             and
-            (current_hour >= 8 and current_hour < 11) 
+            (current_hour >= 8 and current_hour < 11) #It is betwwn 8-11AM
             ):
             base_price += 4.00
 
