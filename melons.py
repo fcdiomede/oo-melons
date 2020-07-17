@@ -1,6 +1,7 @@
 """Classes for melon orders."""
 
 from random import randint
+import datetime as dt
 
 class AbstractMelonOrder():
     """ An abstract base class that other melon orders inhert from """
@@ -13,25 +14,43 @@ class AbstractMelonOrder():
         self.species = species
         self.qty = qty
 
+
+    def get_base_price(self):
+        """Determine a random price for melons, accounting for splurge pricing"""
+        current_time = dt.datetime.now() 
+        current_hour = current_time.hour
+        current_weekday = current_time.weekday()
+
+        base_price = randint(5,9)
+
+        if (
+            (current_weekday >= 0 and current_weekday <= 5) 
+            and
+            (current_hour >= 8 and current_hour < 11) 
+            ):
+            base_price += 4.00
+
+        return base_price
+
+
     def get_total(self):
         """Calculate price, including tax."""
 
-        base_price = get_base_price()
+        base_price = self.get_base_price()
 
         if self.species == "Christmas":
-            self.base_price *= 1.5
+            base_price *= 1.5
 
-        total = (1 + self.tax) * self.qty * self.base_price
+        total = (1 + self.tax) * self.qty * base_price
 
         return total
+
 
     def mark_shipped(self):
         """Record the fact than an order has been shipped."""
 
         self.shipped = True
 
-    def get_base_price(self):
-        base_price = randint(5,9)
 
 
 class DomesticMelonOrder(AbstractMelonOrder):
